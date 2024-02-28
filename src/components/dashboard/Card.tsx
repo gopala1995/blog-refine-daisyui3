@@ -2,7 +2,7 @@ import { PencilIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 
 export const Card = ({ props }: any) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg py-3 px-5 w-[450px] hover:bg-gray-100 mt-2 ml-2">
+    <div className="bg-white rounded-lg shadow-lg py-3 px-5 w-[23%] hover:bg-gray-100 mt-2 ml-2">
       <div className="flex justify-between">
         <div>
           <p className="text-[#3c3c3c]">{props.title}</p>
