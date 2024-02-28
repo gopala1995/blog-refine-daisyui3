@@ -99,8 +99,8 @@ const ApexChart = () => {
   const [endDate, setEndDate] = useState("");
 
   const handleDateRangeSelection = () => {
-    setChartData(option.xaxis.categories[endDate]);
-    // console.log("Selected date range:", startDate, "to", endDate);
+    // setChartData(option.xaxis.categories[endDate]);
+    console.log("Selected date range:", startDate, "to", endDate);
   };
 
   return (
