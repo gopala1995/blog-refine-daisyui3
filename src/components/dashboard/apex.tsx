@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Card } from "./Card";
 import jsonData from "../../Data.json";
@@ -9,11 +11,11 @@ const ApexChart = () => {
     series: [
       {
         name: "Oct 1, 2022 - Feb 21, 2024",
-        data: [10000, 40000, 22000, 44000, 20000, 40000, 20050, 40000],
+        data: [10000, 20000, 22000, 24000, 40000, 40000, 20050, 20000],
       },
       {
         name: "Oct 1, 2022 - Feb 21, 2024",
-        data: [27000, 30007, 35000, 40009, 47000, 42006, 43005, 36007],
+        data: [27000, 20007, 20000, 40009, 47000, 42006, 43005, 46007],
       },
     ],
     options: {
@@ -95,25 +97,44 @@ const ApexChart = () => {
     },
   });
 
-  const [Date, setDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
-  const filterSeriesData = (predicate: any) => {
-    setChartData((prevData) => ({
-      ...prevData,
-      series: prevData.series.map((series) => ({
-        ...series,
-        data: series.data.filter(predicate),
-      })),
-    }));
+  const handleDateRangeSelection = () => {
+    const Startdate = new Date(startDate);
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const StartMonth = Startdate.getMonth();
+    const StartYear = Startdate.getFullYear();
+    const EndDate = new Date(endDate);
+    const EndMonth = EndDate.getMonth();
+    const EndYear = EndDate.getFullYear();
+
+    console.log(
+      "Selected date range:====>",
+      monthNames[StartMonth],
+      "to",
+      StartYear
+    );
+    console.log(
+        "Selected date range:====>",
+        monthNames[EndMonth],
+        "to",
+        EndYear
+      );
   };
-
-  const handleFilterData = () => {
-    // For example, let's filter out data points
-    filterSeriesData((dataPoint: any) => dataPoint <= 30000);
-    console.log("===>");
-  };
-
-  console.log(Date);
 
   return (
     <div className="bg-white rounded-[10px]">
@@ -125,61 +146,25 @@ const ApexChart = () => {
           <ChevronDownIcon className="h-4 w-4" />
         </div>
       </div>
-      {/* <div className="ml-3">
-        <input
-          className="ml-3 bg-gray-200 rounded-[4px] px-4 py-1"
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
+      <div className="ml-3">
+        <DatePicker
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+          placeholderText="Start Date"
         />
-        <input
-          className="ml-3 bg-gray-200 rounded-[4px]  px-4 py-1"
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
+        <DatePicker
+          selected={endDate}
+          onChange={(date) => setEndDate(date)}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          minDate={startDate}
+          placeholderText="End Date"
         />
-        <button
-          className="ml-10 bg-gray-200 rounded-[4px] px-4 py-1"
-          onClick={handleDateRangeSelection}
-        >
-          Apply
-        </button>
-      </div> */}
-      <div>
-        <button
-          className="ml-3 bg-gray-200 rounded-[4px] px-4 py-1"
-          onClick={(e) => setDate(e.target.value)}
-          value="2"
-        >
-          3M
-        </button>
-        <button
-          className="ml-3 bg-gray-200 rounded-[4px] px-4 py-1"
-          onClick={(e) => setDate(e.target.value)}
-          value="4"
-        >
-          6M
-        </button>
-        <button
-          className="ml-3 bg-gray-200 rounded-[4px] px-4 py-1"
-          onClick={(e) => setDate(e.target.value)}
-          value="6"
-        >
-          1Y
-        </button>
-        <button
-          className="ml-3 bg-gray-200 rounded-[4px] px-4 py-1"
-          onClick={(e) => setDate(e.target.value)}
-          value="8"
-        >
-          All
-        </button>
-        <button
-          className="ml-3 bg-gray-200 rounded-[4px] px-4 py-1"
-          onClick={handleFilterData}
-        >
-          Filter Data
-        </button>
+        <button onClick={handleDateRangeSelection}>Apply</button>
       </div>
       <div id="chart">
         <ReactApexChart
